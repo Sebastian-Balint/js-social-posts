@@ -3,10 +3,6 @@
 // Milestone 1 - Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
 // Milestone 2 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
 // Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
-// BONUS
-// 1. Formattare le date in formato italiano (gg/mm/aaaa)
-// 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
-// 3. Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
 
 const posts = [
   {
@@ -72,11 +68,23 @@ const posts = [
 ];
 
 const postsContainer = document.querySelector("#container");
-
 posts.forEach((post) => {
   const newPost = generatePost(post);
   postsContainer.innerHTML += newPost;
 });
+
+const allLikeBtn = document.querySelectorAll(".js-like-button");
+const allLikeCounter = document.querySelectorAll(".js-likes-counter");
+const likedIdArray = [];
+allLikeBtn.forEach((likeBtn, index) => {
+  likeBtn.addEventListener("click", function () {
+    likeBtn.classList.add("like-button--liked");
+    const thisLikeCounter = allLikeCounter[index];
+    parseInt(thisLikeCounter.textContent++);
+    likedIdArray.push(posts[index].id);
+  });
+});
+console.log(likedIdArray);
 
 /* FUCTIONS */
 function generatePost(post) {
